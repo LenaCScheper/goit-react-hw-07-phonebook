@@ -8,19 +8,15 @@ import './App.css';
 
 export default function App() {
   
-
-
-    
     return (
        <Container>
        <h1 className="title"> Phonebook </h1>
        <h2 className="subtitle">Add new contact</h2>
-       <NameForm /*onSubmit={addContact}*/ />
+       <NameForm  />
        <h2 className="subtitle">Find contact</h2>
-       <Filter /*value={filter} onChange={changeFilter} *//>
+       <Filter />
        <h2 className="subtitle">Contact list</h2>
-       <ContactList /*contacts = { getVisibleContacts() }
-         onDeleteContact = {deleteContact}*//>
+       <ContactList />
        </Container>
     )
 }

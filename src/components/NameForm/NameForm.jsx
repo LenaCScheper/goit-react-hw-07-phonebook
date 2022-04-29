@@ -2,13 +2,12 @@ import { useState} from 'react';
 import shortid from 'shortid';
 import { useSelector, useDispatch } from 'react-redux';
 import { getContacts } from '../../redux/selectors';
-import {addContact} from '../../redux/actions';
+import {addContact} from '../../redux/operations';
 import s from './NameForm.module.css';
 
 export default function Nameform() {
     const contacts = useSelector(getContacts);
     const dispatch = useDispatch();
-    // const onSubmit = ({ name, number }) => dispatch(actions.addContact(name, number));
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
 
@@ -29,10 +28,12 @@ export default function Nameform() {
     const resetinput = () => {
         setName('');
         setPhone('');
+
+
     }
 
     const checkRepeatName = name => {
-        return contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase())
+        return contacts.find(contact =>contact.name&& contact.name.toLowerCase() === name.toLowerCase())
     };  
 
     const checkRepeatPhone = phone => { return contacts.find(contact => contact.phone === phone) };
@@ -53,6 +54,8 @@ export default function Nameform() {
             dispatch(addContact(name,phone));
         }
         resetinput();
+
+        
     };
     
     const nameInputId = shortid.generate();
