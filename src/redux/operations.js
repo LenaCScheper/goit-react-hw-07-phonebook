@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as actions from './actions';
 
-axios.defaults.baseURL = 'https://626c08ef50a310b8a33ef601.mockapi.io';
+axios.defaults.baseURL = 'https://626c08ef50a310b8a33ef601.mockapi.io/api/v1/';
 
 export const addContact = (name,phone)=>dispatch => {
     const contact = {
