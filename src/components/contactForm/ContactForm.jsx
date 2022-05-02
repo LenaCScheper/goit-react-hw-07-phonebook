@@ -1,14 +1,19 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddContact } from '../../redux/operations';
-import { getVisibleContacts } from '../../redux/selectors';
+// import { AddContact } from '../../redux/contacts-operations';
+import {
+  useFetchContactsQuery,
+  useAddContactMutation,
+} from 'redux/contacts-slice';
+import { getVisibleContacts } from '../../redux/contacts-selectors';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import s from './Container.module.css';
+import './ContactForm.scss';
 
+// import { ContactForm } from './ContactForm.styles';
 
-
-export default function Container() {
+export default function ContactForm() {
+  // const contacts = useSelector(getVisibleContacts);
   const { contacts, isFetching } = useFetchContactsQuery();
   const { AddContact } = useAddContactMutation();
   const [name, setName] = useState('');
