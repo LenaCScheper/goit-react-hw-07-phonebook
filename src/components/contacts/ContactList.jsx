@@ -16,18 +16,6 @@ const ContactList = () => {
   const { data: contacts, isFetching } = useFetchContactsQuery();
   const { deleteContacts } = useDeleteContactsMutation();
 
-  // const filteredContacts = contacts ? getVisibleContacts(contacts) : [];
-  // const contacts = useSelector(getVisibleContacts);
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(FetchContacts());
-  // }, [dispatch]);
-
-  // const onDeleteContacts = id => {
-  //   dispatch(deleteContacts(id));
-  // };
-
   return (
     <>
       {contacts && (
