@@ -1,98 +1,58 @@
-import { useState} from 'react';
-import shortid from 'shortid';
-import { useSelector, useDispatch } from 'react-redux';
-import { getContacts } from '../../redux/selectors';
-import {addContact} from '../../redux/operations';
+
+
 import s from './NameForm.module.css';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteContacts, FetchContacts } from '../../redux/operations';
+import { getVisibleContacts, isLoading } from '../../redux/selectors';
+import { Watch } from 'react-loader-spinner';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import PropTypes from 'prop-types';
 
-export default function Nameform() {
-    const contacts = useSelector(getContacts);
-    const dispatch = useDispatch();
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
+const NameForm = () => {
+  const contacts = useSelector(getVisibleContacts);
+  const dispatch = useDispatch();
 
-      const handleChange = event => {
-        const { name, value } = event.currentTarget;
+  useEffect(() => {
+    dispatch(FetchContacts());
+  }, [dispatch]);
 
-        switch (name) {
-            case 'name':
-                setName(value);
-                break;
-            case 'phone':
-                setPhone(value);
-                break;
-            default: return;
-        };
-    };
+  const onDeleteContacts = id => {
+    dispatch(deleteContacts(id));
+    // dispatch(FetchContacts());
+  };
 
-    const resetinput = () => {
-        setName('');
-        setPhone('');
-
-
-    }
-
-    const checkRepeatName = name => {
-        return contacts.find(contact =>contact.name&& contact.name.toLowerCase() === name.toLowerCase())
-    };  
-
-    const checkRepeatPhone = phone => { return contacts.find(contact => contact.phone === phone) };
-
-    const handleSubmit = event => {
-        event.preventDefault();
-       
-        if (checkRepeatName(name)) {
-         alert(`${name} is already added.`)
-        }
-        else if (checkRepeatPhone(phone)) {
-            alert(`${phone} is already added.`)
-        }
-        else if (name.trim() === '' || phone.trim() === '') {
-            alert('All of inputs must be not empty')
-            }
-        else {
-            dispatch(addContact(name,phone));
-        }
-        resetinput();
-
-        
-    };
-    
-    const nameInputId = shortid.generate();
-    const phoneInputId = shortid.generate();
-
-    return (
-        <>
-            <form className={s.form} onSubmit={handleSubmit}>
-                <div className={s.container}>
-                    <label className={s.label}>
-                        Name
-                            <input
-                            type="text"
-                            name='name'
-                            value={name}
-                            onChange={handleChange}
-                            id={nameInputId}
-                        />
-                    </label >
-                    <label className={s.label}>
-                        Phone
-                             <input
-                            type="text"
-                            name='phone'
-                            value={phone}
-                            onChange={handleChange}
-                            id={phoneInputId}
-                        />
-                    </label>
-                        
-
-                    <button className={s.button} type='submit'>Add contact</button>
-
-                </div>
-            </form>
-        </>
-    );
-
-
+  return (
+    <>
+      {contacts.length > 0 && (
+        <ul className="ContactList">
+          {contacts.map(({ id, name, number }) => (
+            <li key={id}>
+              <p>
+                {name}:<span>{number}</span>
+              </p>
+              <button type="button" onClick={() => onDeleteContacts(id)}>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {isLoading === true && (
+        <Watch height="100" width="100" color="teal" ariaLabel="loading" />
+      )}
+    </>
+  );
 };
+
+ContactList.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
+};
+
+export default NameForm;

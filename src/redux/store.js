@@ -1,5 +1,5 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 import {
   FLUSH,
   REHYDRATE,
@@ -8,23 +8,25 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import reducers from './reducers';
-
-const middleware = [
-  ...getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-  }),
-  logger,
-];
-
+import logger from 'redux-logger';
+import contactsReducer from './contacts-reducer';
+import { contactApi } from './contacts-slice';
 
 export const store = configureStore({
   reducer: {
-    contacts:reducers,
+    contacts: contactsReducer,
+    [contactApi.reducerPath]: contactApi.reducer,
   },
-  middleware,
   devTools: process.env.NODE_ENV === 'development',
+  middleware: getDefaultMiddleware => [
+    ...getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+    logger,
+    contactApi.middleware,
+  ],
 });
 
+setupListeners(store.dispatch);

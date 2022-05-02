@@ -1,43 +1,57 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import * as actions from './actions';
+import { toast } from 'react-toastify';
 
-axios.defaults.baseURL = 'https://626c08ef50a310b8a33ef601.mockapi.io/api/v1/';
+// axios.defaults.baseURL = 'http://localhost:4000';
+axios.defaults.baseURL = 'https://62093c148f06050017619019.mockapi.io/api/v1/';
 
-export const addContact = (name,phone)=>dispatch => {
-    const contact = {
-        name,
-        phone
-        
-    };
+const errorNotice = () =>
+  toast.error(
+    "The request couldn't be processed. Some server issue has occured."
+  );
 
-    dispatch(actions.addContactRequest());
-     
-   
-    axios
-        .post('/Contactlist', contact)
-        .then(({ data }) =>
-            dispatch( actions.addContactSuccess(data) ))
-        .catch(error => dispatch(actions.addContactError(error)));
-    
-};
+export const FetchContacts = createAsyncThunk(
+  'contacts/fetchContactSuccess',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('/contacts');
+      console.log('test');
+      return data;
+    } catch (error) {
+      errorNotice();
+      return rejectWithValue(error);
+    }
+  }
+);
 
-export const deleteContact = contactId => dispatch => {
-    
-    dispatch(actions.deleteContactRequest());
+export const AddContact = createAsyncThunk(
+  'contacts/addContactSuccess',
+  async ({ name, number }, { rejectWithValue }) => {
+    const contacts = { name: name, number: number };
+    // const { data } = await axios.post('/contacts', contacts);
+    // return data;
 
-    axios
-        .delete(`./Contactlist/${contactId}`)
-        .then(() =>
-            dispatch(actions.deleteContactSuccess(contactId)))
-        .catch(error => dispatch(actions.deleteContactError(error)));
-};
+    try {
+      const { data } = await axios.post('/contacts', contacts);
+      return data;
+    } catch (error) {
+      errorNotice();
+      return rejectWithValue(error);
+    }
+  }
+);
 
-export const fetchContacts = () => dispatch => {
-  dispatch(actions.fetchContactRequest());
-
-  axios
-    .get('/Contactlist')
-      .then(({ data }) =>
-          dispatch(actions.fetchContactSuccess(data)))
-    .catch(error => dispatch(actions.fetchContactError(error)));
-};
+export const deleteContacts = createAsyncThunk(
+  'contacts/deleteContactSuccess',
+  async (contactId, { rejectWithValue }) => {
+    // const { data } = await axios.delete(`/contacts/${contactId}`);
+    // return data;
+    try {
+      const { data } = await axios.delete(`/contacts/${contactId}`);
+      return data;
+    } catch (error) {
+      errorNotice();
+      return rejectWithValue(error);
+    }
+  }
+);

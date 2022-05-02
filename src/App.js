@@ -1,9 +1,9 @@
 
-import ContactList from './components/ContactList';
+import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 import NameForm from './components/NameForm/NameForm';
 import Filter from './components/Filter';
 import Container from './components/Container';
-
 import './App.css';
 
 export default function App() {
