@@ -1,50 +1,41 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
-const Form = styled.form`
+export const Form = styled.form`
+  border: solid 2px black;
+  width: 400px;
+  height: 188px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-direction: column;
+  padding-left: 20px;
+  margin: 0px;
+`;
+
+export const Label = styled.label`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 1px solid black;
-  margin: auto;
-  padding: 15px;
 `;
 
-const Label = styled.label`
-  margin-bottom: 10px;
+export const Input = styled.input`
+  border: 2px solid #ededed;
+  margin-top: 9px;
+  &:focus {
+    outline: none;
+    border: none;
+    border: 3px solid #90bff5;
+    border-radius: 5px;
+  }
 `;
 
-const InputName = styled.input.attrs(() => ({
-  type: 'text',
-  name: 'name',
-  autoComplete: 'off',
-  required: true,
-  pattern: `^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$`,
-  title: `Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan`,
-}))`
-  display: block;
-  margin-top: 5px;
+export const Button = styled.button`
+  border-radius: 5px;
+  cursor: pointer;
+  background: white;
+  border-color: #ececec;
+  width: 95px;
+  &:hover {
+    background: #4e8cf0;
+  }
 `;
-
-const InputNumber = styled.input.attrs(() => ({
-  type: 'tel',
-  name: 'number',
-  autoComplete: 'off',
-  required: true,
-  pattern: `\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}`,
-  title: `Phone number must be digits and can contain spaces, dashes, parentheses and can start with +`,
-}))`
-  display: block;
-  margin-top: 5px;
-`;
-
-const ButtonSubmit = styled.button.attrs(() => ({
-  type: 'submit',
-}))`
-  height: 2em;
-  border: none;
-  background-color: aqua;
-  border-radius: 8px;
-  padding: 5px 15px;
-`;
-
-export { Form, Label, InputName, InputNumber, ButtonSubmit };
