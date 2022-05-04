@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://62093c148f06050017619019.mockapi.io/api/v1',
+    baseUrl: 'https://6270114be1c7aec428eec3e7.mockapi.io/api/v1/',
   }),
   tagTypes: ['contact'],
   endpoints: builder => ({
@@ -12,11 +12,12 @@ export const contactsApi = createApi({
       providesTags: ['contact'],
     }),
     addContact: builder.mutation({
-      query: newContact => ({
+      query: ({ name, number }) => ({
         url: `/contacts/`,
         method: 'POST',
         body: {
-          content: newContact,
+          name,
+          number,
         },
       }),
       invalidatesTags: ['contact'],
@@ -36,17 +37,3 @@ export const {
   useAddContactMutation,
   useDeleteContactsMutation,
 } = contactsApi;
-
-// export const pokemonApi = createApi({
-//   reducerPath: 'pokemonApi',
-//   baseQuery: fetchBaseQuery({ baseUrl: 'https://pokeapi.co/api/v2/' }),
-//   endpoints: builder => ({
-//     getPokemonByName: builder.query({
-//       query: name => `pokemon/${name}`,
-//     }),
-//   }),
-// });
-
-// // Export hooks for usage in functional components, which are
-// // auto-generated based on the defined endpoints
-// export const { useGetPokemonByNameQuery } = pokemonApi;
