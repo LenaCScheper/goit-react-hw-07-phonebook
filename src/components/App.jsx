@@ -7,11 +7,11 @@ import Filter from './filter/Filter';
 export default function App() {
   return (
     <div className="App">
-      <h1>Phonebook</h1>
+      <h1 className="title">Phonebook</h1>
       <ContactForm />
       <ToastContainer autoClose={3000} />
-      <h2>Contacts</h2>
       <Filter />
+      <h2 className="subitle">Contacts</h2>
       <ContactList />
     </div>
   );

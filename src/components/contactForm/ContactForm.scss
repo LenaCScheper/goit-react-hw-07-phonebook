@@ -1,9 +1,10 @@
 .ContactForm {
-  border: solid 2px black;
+  border: solid 2px rgb(63, 55, 55);
+  border-radius: 2em;
   width: 400px;
-  height: 188px;
+  height: 180px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: flex-start;
   flex-direction: column;
   padding-left: 20px;
@@ -24,6 +25,8 @@
     }
   }
   button {
+    margin-left: 30%;
+    margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
     background: white;

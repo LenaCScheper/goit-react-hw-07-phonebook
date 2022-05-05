@@ -1,8 +1,10 @@
 .Filter {
   display: flex;
   flex-direction: column;
+  text-align: center;
   font-size: 20px;
   input {
+    margin-left: 30%;
     width: 160px;
     height: 25px;
     border: 2px solid #ededed;
